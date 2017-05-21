@@ -1,0 +1,11 @@
+footer {
+	text-align:center;
+  height: 100px;
+  display: block;
+  background-color: #f0f0f0;
+  line-height: 100px;
+  position: relative;
+}
+footer a {
+	font-size: small;
+}

@@ -42,7 +42,7 @@ public class AssetsHandler {
 
 		response.setContentType(MimeTypes.getType(Iterables.getLast(fileInfo)));
 		
-		String realPath = properties.getRoot() + path;
+		String realPath = properties.getRoot() + "/" + path;
 		
 		FileLoader.Resp resp = fileLoaderHelper.load(realPath);
 		if (resp.isNotFound()) {

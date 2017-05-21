@@ -1,0 +1,7 @@
+.index {
+  height: 500px;
+  background: url('http://xpoll.oss-cn-shanghai.aliyuncs.com/qxx/1.jpg?x-oss-process=image/resize,p_20/format,png');
+  background-repeat: no-repeat;
+  background-size: 100% 500px;
+  background-position:center;
+}
