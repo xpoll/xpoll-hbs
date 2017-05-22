@@ -1,40 +1,6 @@
-*, *:before, *:after {
-  box-sizing: border-box;
-}
-
-* {
-  -webkit-tap-highlight-color: transparent;
-  -webkit-transform-style: preserve-3d;
-          transform-style: preserve-3d;
-}
 
 *:focus {
   outline: none !important;
-}
-
-body, html {
-  height: 100%;
-}
-
-a {
-  cursor: pointer;
-}
-
-body {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -ms-flex-line-pack: center;
-      align-content: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  background: #fbeae7;
-  color: #A6ADA7;
-  font-family: "brandon-grotesque", "Brandon Grotesque", "Source Sans Pro", "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
 nav {
@@ -64,6 +30,7 @@ nav label, nav a {
   font-size: 18px;
   font-weight: 600;
   letter-spacing: -1px;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 nav a:hover, nav a:focus {
   border-color: #d0ddd1;
@@ -173,8 +140,9 @@ nav > ul > li > label {
 }
 nav > ul ul {
   position: absolute;
+  list-style: none;
   top: 0;
-  right: -224px;
+  left: 260px;
 }
 nav > ul ul > li {
   -webkit-transform: translateX(-100%);
