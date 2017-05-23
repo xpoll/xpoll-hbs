@@ -1,0 +1,14 @@
+.index {
+  width: 100%;
+  padding-top: 100px;
+  position: relative;
+  background: transparent url('/apps/assets/images/1.jpg') center center;
+  background-size: cover;
+  height: auto;
+}
+.index-content {
+  min-width: 1200px;
+  min-height: 500px;
+  width: 1200px;
+  margin: 0 auto;
+}

@@ -92,6 +92,7 @@ nav ul {
   z-index: 1;
 }
 nav ul li {
+  list-style: none;
   will-change: transform, opacity;
   padding: 4px 0;
   opacity: 0;
