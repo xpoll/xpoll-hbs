@@ -23,11 +23,11 @@ public class GlobalExceptionHandler {
     public Response<?> exceptionHandler(
     		Exception e) throws Exception {
 		if (e instanceof GlobalException) {
-			log.debug("GlobalException:{}", e.getMessage());
+			log.error("GlobalException:{}", e.getMessage());
 			
 			return Response.fail(e.getMessage());
 		}
-		log.debug("Exception:{}", e.getMessage());
+		log.error("Exception:{}", e.getMessage());
 		return Response.fail("系统异常");
     }
 }
