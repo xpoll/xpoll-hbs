@@ -61,6 +61,10 @@
 		hwacceleration: false,
 		autohidemode: true
 		});
+  var es = new EventSource("/api/user/event");
+  es.addEventListener("message", function(e){
+    console.info(e.data)
+  },false); 
   </script>
 </body>
 </html>

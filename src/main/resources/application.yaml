@@ -3,7 +3,7 @@ server:
   port: 8081
   
 qxx:
-  root: /lm/works/code/xpoll-hbs/src/main/resources
+  root: D:/qxx/code-my/xpoll-hbs/src/main/resources
   home: apps
   locale: zh_CN
   devMode: true

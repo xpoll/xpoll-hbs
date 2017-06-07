@@ -32,7 +32,6 @@ public class Users {
 	@Autowired
 	private EventBus eventBus;
 	
-
     @RequestMapping("")
     public Response<BaseUser> getLoginUser() {
         return Response.ok(UserUtil.getCurrentUser());
