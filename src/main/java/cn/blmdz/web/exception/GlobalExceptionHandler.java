@@ -24,10 +24,11 @@ public class GlobalExceptionHandler {
     		Exception e) throws Exception {
 		if (e instanceof GlobalException) {
 			log.error("GlobalException:{}", e.getMessage());
-			
+			e.printStackTrace();
 			return Response.fail(e.getMessage());
 		}
 		log.error("Exception:{}", e.getMessage());
+		e.printStackTrace();
 		return Response.fail("系统异常");
     }
 }

@@ -77,6 +77,13 @@
 			<groupId>cn.blmdz.aide</groupId>
 			<artifactId>qxx-aide-session</artifactId>
 		</dependency>
+		
+		<!-- 支付宝一键注册[需commons-logging-1.1.1] -->
+		<dependency>
+			<groupId>com.alipay</groupId>
+			<artifactId>alipay-sdk</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 
     </dependencies>
 
