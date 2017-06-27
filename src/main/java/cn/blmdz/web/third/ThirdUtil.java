@@ -1,4 +1,4 @@
-package cn.blmdz.web.other;
+package cn.blmdz.web.third;
 
 import java.io.IOException;
 
@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 
 import cn.blmdz.web.enums.ThirdChannel;
+import cn.blmdz.web.manager.ThirdManager;
+import cn.blmdz.web.model.ThirdUser;
 
 /**
  * @author yongzongyang

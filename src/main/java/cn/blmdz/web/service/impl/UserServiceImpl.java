@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
 			user.setType(OwnerType.ACCOUNT.value());
 			user.setOwner(AuthType.ADMIN.name().toLowerCase());
 			user.setPwd(EncryptUtil.encrypt(AuthType.ADMIN.name().toLowerCase()));
-			user.setStatus(1);
+			user.setStatus(StatusType.OK.value());
 			user.setCid(0L);
 			user.setUid(0L);
 			user.setCdate(date);

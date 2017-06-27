@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -15,11 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.common.collect.Maps;
 
-import cn.blmdz.web.dao.ThirdUserDao;
-import cn.blmdz.web.entity.QxxThirdUser;
-import cn.blmdz.web.other.ThirdManager;
-import cn.blmdz.web.other.ThirdUser;
-import cn.blmdz.web.other.ThirdUtil;
+import cn.blmdz.web.manager.ThirdManager;
+import cn.blmdz.web.model.ThirdUser;
+import cn.blmdz.web.service.ThirdUserService;
+import cn.blmdz.web.third.ThirdUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -33,7 +31,7 @@ public class ThirdController {
 	private ThirdManager thirdManager;
 	
 	@Autowired
-	private ThirdUserDao thirdUserDao;
+	private ThirdUserService thirdUserService;
 
 	/**
 	 * 渠道切换
@@ -65,18 +63,10 @@ public class ThirdController {
 		channel(tuser);
 		tuser = ThirdUtil.getThirdUserId(request, response, tuser, thirdManager, false);
 		if (tuser == null) return null;
+		
+		thirdUserService.recording(tuser);
+		
 		log.info("用户信息: {}", tuser);
-		
-		QxxThirdUser qtuser = thirdUserDao.findByThirdUserId(tuser.getThird(), tuser.getThirdUserId());
-		if (qtuser == null) {
-			log.info("插入");
-			qtuser = new QxxThirdUser();
-			BeanUtils.copyProperties(tuser, qtuser);
-			thirdUserDao.create(qtuser);
-		}
-		tuser.setId(qtuser.getId());
-		
-		log.info("后用户信息: {}", tuser);
 		
 		try {
 			response.sendRedirect("/");

@@ -1,4 +1,4 @@
-package cn.blmdz.web.other;
+package cn.blmdz.web.third;
 
 import com.alipay.api.AlipayClient;
 import com.alipay.api.AlipayConstants;

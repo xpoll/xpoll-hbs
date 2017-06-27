@@ -1,18 +1,23 @@
-package cn.blmdz.web.other;
+package cn.blmdz.web.manager.impl;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.alipay.api.response.AlipaySystemOauthTokenResponse;
 import com.alipay.api.response.AlipayUserInfoShareResponse;
 
-@Service("alipayThirdManager")
+import cn.blmdz.web.manager.ThirdManager;
+import cn.blmdz.web.model.ThirdUser;
+import cn.blmdz.web.third.AliPayConfig;
+import cn.blmdz.web.third.AlipaySDK;
+
+@Component("alipayThirdManager")
 public class AlipayThirdManager implements ThirdManager {
 	
 	private AlipaySDK alipaySDK = AliPayConfig.getInstance();
 	
 	@Override
-	public ThirdUser getThirdUserId(String auth_code, ThirdUser tuser) {
-		AlipaySystemOauthTokenResponse responseToken = alipaySDK.userToken(auth_code);
+	public ThirdUser getThirdUserId(String authCode, ThirdUser tuser) {
+		AlipaySystemOauthTokenResponse responseToken = alipaySDK.userToken(authCode);
 		AlipayUserInfoShareResponse responseInfo = alipaySDK.userInfo(responseToken.getAccessToken());
 		tuser.setNick(responseInfo.getNickName());
 		tuser.setThirdUserId(responseInfo.getUserId());

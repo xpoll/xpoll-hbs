@@ -39,10 +39,10 @@ public class ThirdUserDao extends RedisBaseDao<QxxThirdUser> {
 	@Override
 	protected void create(Transaction t, QxxThirdUser obj) {
 		obj.setId(newId());
-		// 外键 userId
-		if (obj.getUserId() != null) t.hset(indexUserId(), newIndexMore(obj.getUserId(), null, obj.getId(), indexUserId()), String.valueOf(obj.getId()));
-		// 外键 channel+thirdUserId
-		t.hset(indexTypeUserId(obj.getThird()), obj.getThirdUserId(),String.valueOf(obj.getId()));
+//		// 外键一对多 userId 逻辑有问题 TODO
+//		if (obj.getUserId() != null) t.hset(indexUserId(), newIndexMore(obj.getUserId(), null, obj.getId(), indexUserId()), String.valueOf(obj.getId()));
+		// 外键一对一 channel+thirdUserId
+		t.hset(indexTypeUserId(obj.getThird()), obj.getThirdUserId(), String.valueOf(obj.getId()));
 		// 创建
 		t.hmset(KeyUtils.entityId(QxxThirdUser.class, obj.getId()), stringHashMapper.toHash(obj));
 	}
@@ -51,22 +51,22 @@ public class ThirdUserDao extends RedisBaseDao<QxxThirdUser> {
 	protected void update(Transaction t, QxxThirdUser obj) {
 		QxxThirdUser old = findById(obj.getId());
 		Preconditions.checkArgument(old != null, "update primary data empty");
-		// 外键 userId
-		t.hset(indexUserId(), newIndexMore(obj.getUserId(), old.getId(), obj.getId(), indexUserId()), String.valueOf(obj.getId()));
+//		// 外键一对多 userId 逻辑有问题 TODO
+//		t.hset(indexUserId(), newIndexMore(obj.getUserId(), old.getId(), obj.getId(), indexUserId()), String.valueOf(obj.getId()));
 		// 更新
 		t.hmset(KeyUtils.entityId(QxxThirdUser.class, obj.getId()), stringHashMapper.toHash(obj));
 		
 	}
 	
 	/**
-	 * 外键 userId
+	 * 外键一对多 userId
 	 */
 	private String indexUserId() {
 		return indexMore("userId");
 	}
 	
 	/**
-	 * 外键 channel+thirdUserId
+	 * 外键一对一 channel+thirdUserId
 	 */
 	private String indexTypeUserId(ThirdChannel type) {
 		return indexOne(type.code() + "UserId");
