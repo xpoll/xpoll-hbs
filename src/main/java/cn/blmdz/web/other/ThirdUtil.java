@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 
+import cn.blmdz.web.enums.ThirdChannel;
+
 /**
  * @author yongzongyang
  * @date 2017年6月13日

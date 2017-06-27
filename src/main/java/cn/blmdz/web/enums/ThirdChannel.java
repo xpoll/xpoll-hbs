@@ -1,4 +1,4 @@
-package cn.blmdz.web.other;
+package cn.blmdz.web.enums;
 
 /**
  * 第三方渠道

@@ -3,12 +3,13 @@ package cn.blmdz.web.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
+
 import cn.blmdz.common.redis.JedisExecutor;
-import cn.blmdz.common.redis.JedisExecutor.JedisCallBackNoResult;
 import cn.blmdz.common.redis.RedisBaseDao;
 import cn.blmdz.common.util.KeyUtils;
 import cn.blmdz.web.entity.QxxUser;
-import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Transaction;
 
 @Repository
@@ -21,39 +22,36 @@ public class UserDao extends RedisBaseDao<QxxUser> {
 		super(jedisExecutor, select);
 	}
 	
-	public Long create(final QxxUser user) {
-		jedisExecutor.execute(new JedisCallBackNoResult() {
-			@Override
-			public void execute(Jedis jedis) {
-				Transaction t = jedis.multi();
-				create(t, user);
-				t.exec();
-			}
-		}, select);
-		return user.getId();
-	}
-	
 	public QxxUser findByOwner(final String owner) {
-		return findIdIndex(owner, indexOwner());
+		return findIndexOne(owner, indexOwner());
 	}
 	
-	public void update(final QxxUser user) {
-		jedisExecutor.execute(new JedisCallBackNoResult(){
-			@Override
-			public void execute(Jedis jedis) {
-				jedis.hmset(KeyUtils.entityId(QxxUser.class, user.getId()), stringHashMapper.toHash(user));
-			}
-		}, select);
-	}
-	
-	protected Long create(Transaction t, QxxUser user) {
+	@Override
+	protected void create(Transaction t, QxxUser user) {
 		user.setId(newId());
+		// 外键 owner
 		t.hset(indexOwner(), user.getOwner(), String.valueOf(user.getId()));
+		// 创建
 		t.hmset(KeyUtils.entityId(QxxUser.class, user.getId()), stringHashMapper.toHash(user));
-		return user.getId();
+	}
+	
+	@Override
+	protected void update(Transaction t, QxxUser user) {
+		QxxUser old = findById(user.getId());
+		Preconditions.checkArgument(old != null, "update primary data empty");
+		// 外键 owner
+		if (!Objects.equal(old.getOwner(), user.getOwner())) {
+			t.hdel(indexOwner(), old.getOwner());
+			t.hset(indexOwner(), user.getOwner(), String.valueOf(user.getId()));
+		}
+		// 更新
+		t.hmset(KeyUtils.entityId(QxxUser.class, user.getId()), stringHashMapper.toHash(user));
 	}
 
+	/**
+	 * 外键 owner
+	 */
 	protected String indexOwner() {
-		return index("owner");
+		return indexOne("owner");
 	}
 }

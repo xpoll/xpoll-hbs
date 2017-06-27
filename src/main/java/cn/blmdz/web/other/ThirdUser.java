@@ -1,5 +1,6 @@
 package cn.blmdz.web.other;
 
+import cn.blmdz.web.enums.ThirdChannel;
 import lombok.Data;
 
 /**
@@ -11,9 +12,9 @@ import lombok.Data;
 @Data
 public class ThirdUser {
 	private Long id;
-	private String userId;
+	private String thirdUserId;
 	private ThirdChannel third;
 	
-	private String nickName;
+	private String nick;
 	private String avatar;
 }

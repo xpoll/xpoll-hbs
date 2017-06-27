@@ -14,8 +14,8 @@ public class AlipayThirdManager implements ThirdManager {
 	public ThirdUser getThirdUserId(String auth_code, ThirdUser tuser) {
 		AlipaySystemOauthTokenResponse responseToken = alipaySDK.userToken(auth_code);
 		AlipayUserInfoShareResponse responseInfo = alipaySDK.userInfo(responseToken.getAccessToken());
-		tuser.setNickName(responseInfo.getNickName());
-		tuser.setUserId(responseInfo.getUserId());
+		tuser.setNick(responseInfo.getNickName());
+		tuser.setThirdUserId(responseInfo.getUserId());
 		tuser.setAvatar(responseInfo.getAvatar());
 		return tuser;
 	}
