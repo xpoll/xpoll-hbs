@@ -41,6 +41,11 @@ public class QxxThirdUser implements Serializable {
 	 * 用户ID
 	 */
 	private String userId;
+	
+	/**
+	 * 用户地址
+	 */
+	private String url;
 
 	/**
 	 * @see cn.blmdz.web.enums.StatusType

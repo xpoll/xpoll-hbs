@@ -31,4 +31,8 @@ public class ThirdUser {
 	 * 头像
 	 */
 	private String avatar;
+	/**
+	 * 地址
+	 */
+	private String url;
 }

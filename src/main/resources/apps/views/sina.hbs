@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:wb="http://open.weibo.com/wb">
+<head>
+	<title>sina</title>
+</head>
+<body>
+{{inject "common/header"}}
+<div style="
+    display: block;
+    height: 300px;
+    top: 100px;
+    position: relative;
+    text-align: right;
+">
+	<wb:login-button type="3,2" onlogin="login" onlogout="logout">登录按钮</wb:login-button>
+</div>
+{{inject "common/footer"}}
+<script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=2385672810" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>

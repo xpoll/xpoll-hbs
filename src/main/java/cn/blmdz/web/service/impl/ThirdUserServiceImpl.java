@@ -39,7 +39,7 @@ public class ThirdUserServiceImpl implements ThirdUserService {
 		
 		tuser.setId(qtuser.getId());
 		// 每次调用更新
-		qtuser.setNick(tuser.getAvatar());
+		qtuser.setNick(tuser.getNick());
 		qtuser.setAvatar(tuser.getAvatar());
 		qtuser.setUdate(date);
 		
