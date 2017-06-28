@@ -6,6 +6,7 @@ import com.github.kevinsawicki.http.HttpRequest;
 import com.google.common.collect.Maps;
 
 import cn.blmdz.common.util.JsonMapper;
+import cn.blmdz.web.third.SinaUser;
 
 public class HttpTest {
 
@@ -19,7 +20,7 @@ public class HttpTest {
 		values.put("grant_type", "authorization_code");
 		values.put("code", "a14a2f3133051e519126c2b3ea0c71be");
 		values.put("redirect_uri", "http://blmdz.cn");
-//		post(url, values);
+		post(url, values);
 		//{"access_token":"2.00vwJMBDiTC9bCad68342e5bcpDkfD","remind_in":"157679999","expires_in":157679999,"uid":"2766073017"}
 		//https://api.weibo.com/2/users/show.json?uid=2766073017&source=2385672810&access_token=2.00vwJMBDiTC9bCad68342e5bcpDkfD
 		url = "https://api.weibo.com/2/users/show.json";

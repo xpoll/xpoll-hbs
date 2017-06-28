@@ -1,4 +1,4 @@
-package cn.blmdz.test;
+package cn.blmdz.web.third;
 
 import lombok.Data;
 

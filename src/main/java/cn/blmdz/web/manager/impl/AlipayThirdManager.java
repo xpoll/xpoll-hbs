@@ -17,11 +17,16 @@ public class AlipayThirdManager implements ThirdManager {
 	
 	@Override
 	public ThirdUser getThirdUserId(String authCode, ThirdUser tuser) {
-		AlipaySystemOauthTokenResponse responseToken = alipaySDK.userToken(authCode);
-		AlipayUserInfoShareResponse responseInfo = alipaySDK.userInfo(responseToken.getAccessToken());
-		tuser.setNick(responseInfo.getNickName());
-		tuser.setThirdUserId(responseInfo.getUserId());
-		tuser.setAvatar(responseInfo.getAvatar());
-		return tuser;
+		AlipaySystemOauthTokenResponse respToken = alipaySDK.userToken(authCode);
+		if (respToken.isSuccess()) {
+			AlipayUserInfoShareResponse respInfo = alipaySDK.userInfo(respToken.getAccessToken());
+			if (respInfo.isSuccess()) {
+				tuser.setNick(respInfo.getNickName());
+				tuser.setThirdUserId(respInfo.getUserId());
+				tuser.setAvatar(respInfo.getAvatar());
+				return tuser;
+			}
+		}
+		return null;
 	}
 }

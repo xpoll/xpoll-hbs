@@ -17,6 +17,9 @@ import cn.blmdz.web.model.ThirdUser;
  */
 public class ThirdUtil {
 
+	// 公共参数
+	public static final String THIRD = "third";
+	
 	/**
 	 * 获取第三方用户ID<br>
 	 * 
@@ -27,7 +30,6 @@ public class ThirdUtil {
 	 * @param user 必要基础信息（third、business、type）
 	 * @param thirdPartyManager 设置UserId和AccessToken
 	 * @param session true 走session取，false 不走session取但设置session
-	 * @param isBusiness 是否商家用户信息授权，true则需要user含有businessAppId
 	 * @return
 	 */
 	public static ThirdUser getThirdUserId(HttpServletRequest request, HttpServletResponse response, ThirdUser tuser, ThirdManager thirdManager, boolean session) {
@@ -41,6 +43,11 @@ public class ThirdUtil {
 		case ALIPAY:
 			authCode = request.getParameter(AliPayConfig.ALIPAY_AUTH_CODE);
 			break;
+			
+		case SINA:
+			authCode = request.getParameter(SinaConfig.SINA_AUTH_CODE);
+			break;
+			
 		default:
 			break;
 		}
@@ -55,8 +62,7 @@ public class ThirdUtil {
 		/**
 		 * thirdPartyManager设置UserId
 		 */
-		thirdManager.getThirdUserId(authCode, tuser);
-		return tuser;
+		return thirdManager.getThirdUserId(authCode, tuser);
 	}
 	
 	/**
@@ -65,14 +71,10 @@ public class ThirdUtil {
 	 * @return
 	 */
 	public static ThirdUser checkCode(HttpServletRequest request) {
-		String third = request.getParameter(AliPayConfig.THIRD);
-		ThirdChannel thirdChannel = ThirdChannel.tran(third);
-		if (thirdChannel == null) {
-			return null;
-		}
-		ThirdUser user = new ThirdUser();
-		user.setThird(thirdChannel);
-		return user;
+		
+		ThirdChannel thirdChannel = ThirdChannel.tran(request.getParameter(THIRD));
+		
+		return (thirdChannel == null) ? null : new ThirdUser(thirdChannel);
 	}
 	
 	/**
@@ -91,11 +93,20 @@ public class ThirdUtil {
 			.append(AliPayConfig.ALIPAY_APP_ID)
 			.append("&scope=auth_base,auth_user");
 			break;
+			
+		case SINA:
+			sb.append(SinaConfig.SINA_USER_AUTH_URL)
+			.append("?")
+			.append("client_id=")
+			.append(SinaConfig.SINA_APP_KEY)
+			.append("&response_type=code");
+			break;
+			
 		default:
 			break;
 		}
 		sb.append("&")
-		.append(AliPayConfig.THIRD)
+		.append(THIRD)
 		.append("=")
 		.append(user.getThird().code())
 		.append("&redirect_uri=")

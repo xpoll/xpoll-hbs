@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.common.collect.Maps;
 
+import cn.blmdz.web.enums.ThirdChannel;
 import cn.blmdz.web.manager.ThirdManager;
 import cn.blmdz.web.model.ThirdUser;
 import cn.blmdz.web.service.ThirdUserService;
@@ -22,11 +23,16 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
+@RequestMapping(value="/third")
 public class ThirdController {
 
 	@Autowired
 	@Qualifier("alipayThirdManager")
 	private ThirdManager alipayThirdManager;
+
+	@Autowired
+	@Qualifier("sinaThirdManager")
+	private ThirdManager sinaThirdManager;
 
 	private ThirdManager thirdManager;
 	
@@ -41,31 +47,52 @@ public class ThirdController {
 		case ALIPAY:
 			thirdManager = alipayThirdManager;
 			break;
+			
+		case SINA:
+			thirdManager = sinaThirdManager;
+			break;
+			
 		default:
 			break;
 		}
 	}
 	
-	@RequestMapping(value="/third")
-	public String third(HttpServletRequest request, HttpServletResponse response) {
-		Map<String, String> requestMap = Maps.newHashMap();
-		Enumeration<String> enums = request.getParameterNames();
-		while (enums.hasMoreElements()) {
-			String param = enums.nextElement();
-			requestMap.put(param, request.getParameter(param));
-		}
-		log.info("接收参数: {}", requestMap);
+	/**
+	 * 第三方默认入口
+	 */
+	@RequestMapping
+	public String defaults(HttpServletRequest request, HttpServletResponse response) {
+		map(request);
 		
 		ThirdUser tuser = ThirdUtil.checkCode(request);
 		if (tuser == null) {
 			// 异常
 		}
+		third(request, response, tuser);
+		return null;
+	}
+	
+	/**
+	 * 新浪入口->新浪不可以带参
+	 */
+	@RequestMapping(value="/sina")
+	public String sina(HttpServletRequest request, HttpServletResponse response) {
+		map(request);
+		ThirdUser tuser = new ThirdUser(ThirdChannel.SINA);
+		third(request, response, tuser);
+		return null;
+	}
+
+	/**
+	 * 入口公共处理
+	 */
+	private void third(HttpServletRequest request, HttpServletResponse response, ThirdUser tuser) {
 		channel(tuser);
 		tuser = ThirdUtil.getThirdUserId(request, response, tuser, thirdManager, false);
-		if (tuser == null) return null;
+		// 异常处理 TODO
+		if (tuser == null) return ;
 		
 		thirdUserService.recording(tuser);
-		
 		log.info("用户信息: {}", tuser);
 		
 		try {
@@ -73,6 +100,18 @@ public class ThirdController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
+	}
+	
+	/**
+	 * 打印入参
+	 */
+	private void map(HttpServletRequest request) {
+		Map<String, String> requestMap = Maps.newHashMap();
+		Enumeration<String> enums = request.getParameterNames();
+		while (enums.hasMoreElements()) {
+			String param = enums.nextElement();
+			requestMap.put(param, request.getParameter(param));
+		}
+		log.info("接收参数: {}", requestMap);
 	}
 }

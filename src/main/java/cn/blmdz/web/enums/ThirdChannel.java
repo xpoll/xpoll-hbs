@@ -10,7 +10,8 @@ public enum ThirdChannel {
 
 	ALIPAY("alipay", "支付宝"),
 	WECHAT("wechat", "微信"),
-	QQ("qq", "QQ");
+	QQ("qq", "QQ"),
+	SINA("sina", "新浪");
 	
 	String code;
 	String desc;
