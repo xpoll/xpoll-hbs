@@ -34,6 +34,10 @@ public class ThirdController {
 	@Qualifier("sinaThirdManager")
 	private ThirdManager sinaThirdManager;
 
+	@Autowired
+	@Qualifier("baiduThirdManager")
+	private ThirdManager baiduThirdManager;
+
 	private ThirdManager thirdManager;
 	
 	@Autowired
@@ -50,6 +54,10 @@ public class ThirdController {
 			
 		case SINA:
 			thirdManager = sinaThirdManager;
+			break;
+			
+		case BAIDU:
+			thirdManager = baiduThirdManager;
 			break;
 			
 		default:
@@ -71,7 +79,18 @@ public class ThirdController {
 		third(request, response, tuser);
 		return null;
 	}
-	
+
+	/**
+	 * 阿里入口->新浪不可以带参
+	 */
+	@RequestMapping(value="/alipay")
+	public String alipay(HttpServletRequest request, HttpServletResponse response) {
+		map(request);
+		ThirdUser tuser = new ThirdUser(ThirdChannel.ALIPAY);
+		third(request, response, tuser);
+		return null;
+	}
+
 	/**
 	 * 新浪入口->新浪不可以带参
 	 */
@@ -79,6 +98,17 @@ public class ThirdController {
 	public String sina(HttpServletRequest request, HttpServletResponse response) {
 		map(request);
 		ThirdUser tuser = new ThirdUser(ThirdChannel.SINA);
+		third(request, response, tuser);
+		return null;
+	}
+	
+	/**
+	 * 百度入口->百度不可以带参
+	 */
+	@RequestMapping(value="/baidu")
+	public String baidu(HttpServletRequest request, HttpServletResponse response) {
+		map(request);
+		ThirdUser tuser = new ThirdUser(ThirdChannel.BAIDU);
 		third(request, response, tuser);
 		return null;
 	}

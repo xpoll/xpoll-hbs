@@ -9,9 +9,11 @@ package cn.blmdz.web.enums;
 public enum ThirdChannel {
 
 	ALIPAY("alipay", "支付宝"),
+	SINA("sina", "新浪"),
+	BAIDU("baidu", "百度"),
 	WECHAT("wechat", "微信"),
 	QQ("qq", "QQ"),
-	SINA("sina", "新浪");
+	;
 	
 	String code;
 	String desc;

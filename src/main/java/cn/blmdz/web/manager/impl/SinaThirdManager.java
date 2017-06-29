@@ -12,7 +12,9 @@ import cn.blmdz.web.manager.ThirdManager;
 import cn.blmdz.web.model.ThirdUser;
 import cn.blmdz.web.third.SinaConfig;
 import cn.blmdz.web.third.SinaUser;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component("sinaThirdManager")
 public class SinaThirdManager implements ThirdManager {
 
@@ -50,7 +52,9 @@ public class SinaThirdManager implements ThirdManager {
 				tuser.setUrl(suser.getProfile_url());
 				return tuser;
 			}
+			log.error("token: {}", reqInfo.body());
 		}
+		log.error("token: {}", reqToken.body());
 		return null;
 	}
 

@@ -48,6 +48,10 @@ public class ThirdUtil {
 			authCode = request.getParameter(SinaConfig.SINA_AUTH_CODE);
 			break;
 			
+		case BAIDU:
+			authCode = request.getParameter(BaiduConfig.BAIDU_AUTH_CODE);
+			break;
+			
 		default:
 			break;
 		}
@@ -100,6 +104,14 @@ public class ThirdUtil {
 			.append("client_id=")
 			.append(SinaConfig.SINA_APP_KEY)
 			.append("&response_type=code");
+			break;
+			
+		case BAIDU:
+			sb.append(BaiduConfig.GATEWAY_URL)
+			.append("?")
+			.append("client_id=")
+			.append(BaiduConfig.BAIDU_APP_KEY)
+			.append("&scope=basic&display=page&response_type=code");
 			break;
 			
 		default:
