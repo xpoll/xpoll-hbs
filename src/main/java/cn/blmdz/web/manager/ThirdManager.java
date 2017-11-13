@@ -17,4 +17,19 @@ public interface ThirdManager {
 	 * @return
 	 */
 	ThirdUser getThirdUserId(String authCode, ThirdUser tuser);
+	
+	/**
+	 * 用户开卡
+	 * 
+	 * @param requestId 请求号
+	 * @param templateId 模板号
+	 * @param authCode 授权号
+	 */
+	void card(String requestId, String templateId, String authCode);
+	
+	/**
+	 * 领卡链接
+     * @return
+	 */
+	String cardLink();
 }

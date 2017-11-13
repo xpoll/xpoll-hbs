@@ -81,7 +81,7 @@ public class ThirdController {
 	}
 
 	/**
-	 * 阿里入口->新浪不可以带参
+	 * 阿里入口
 	 */
 	@RequestMapping(value="/alipay")
 	public String alipay(HttpServletRequest request, HttpServletResponse response) {
@@ -92,7 +92,7 @@ public class ThirdController {
 	}
 
 	/**
-	 * 新浪入口->新浪不可以带参
+	 * 新浪入口
 	 */
 	@RequestMapping(value="/sina")
 	public String sina(HttpServletRequest request, HttpServletResponse response) {
@@ -103,7 +103,7 @@ public class ThirdController {
 	}
 	
 	/**
-	 * 百度入口->百度不可以带参
+	 * 百度入口
 	 */
 	@RequestMapping(value="/baidu")
 	public String baidu(HttpServletRequest request, HttpServletResponse response) {
@@ -144,4 +144,22 @@ public class ThirdController {
 		}
 		log.info("接收参数: {}", requestMap);
 	}
+
+
+    @RequestMapping(value="/card")
+    public void card(HttpServletRequest request, HttpServletResponse response) {
+//        if (StringUtils.isBlank(request.getParameter("request_id"))
+//                || StringUtils.isBlank(request.getParameter("auth_code"))
+//                || StringUtils.isBlank(request.getParameter("template_id"))
+//                || ThirdChannel.tran(request.getParameter("out_string")) == null) {
+//        }
+        map(request);
+        channel(new ThirdUser(ThirdChannel.tran(request.getParameter("out_string"))));
+        thirdManager.card(request.getParameter("request_id"), request.getParameter("template_id"), request.getParameter("auth_code"));
+        try {
+            response.sendRedirect(thirdManager.cardLink());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

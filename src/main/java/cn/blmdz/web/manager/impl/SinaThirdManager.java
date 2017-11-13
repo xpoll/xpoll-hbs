@@ -58,4 +58,16 @@ public class SinaThirdManager implements ThirdManager {
 		return null;
 	}
 
+    @Override
+    public void card(String requestId, String templateId, String authCode) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public String cardLink() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }
