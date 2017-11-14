@@ -17,6 +17,9 @@ import com.alipay.api.domain.AlipayMarketingCardTemplateCreateModel;
 import com.alipay.api.domain.AlipayMarketingCardTemplateModifyModel;
 import com.alipay.api.domain.AlipayMarketingCardTemplateQueryModel;
 import com.alipay.api.domain.AlipayMarketingCardUpdateModel;
+import com.alipay.api.domain.AlipayMarketingCashlessvoucherTemplateCreateModel;
+import com.alipay.api.domain.AlipayMarketingVoucherAuthSendModel;
+import com.alipay.api.domain.KoubeiMarketingCampaignActivityCreateModel;
 import com.alipay.api.request.AlipayMarketingCardActivateformQueryRequest;
 import com.alipay.api.request.AlipayMarketingCardActivateurlApplyRequest;
 import com.alipay.api.request.AlipayMarketingCardConsumeSyncRequest;
@@ -28,9 +31,12 @@ import com.alipay.api.request.AlipayMarketingCardTemplateCreateRequest;
 import com.alipay.api.request.AlipayMarketingCardTemplateModifyRequest;
 import com.alipay.api.request.AlipayMarketingCardTemplateQueryRequest;
 import com.alipay.api.request.AlipayMarketingCardUpdateRequest;
+import com.alipay.api.request.AlipayMarketingCashlessvoucherTemplateCreateRequest;
+import com.alipay.api.request.AlipayMarketingVoucherAuthSendRequest;
 import com.alipay.api.request.AlipayOfflineMaterialImageUploadRequest;
 import com.alipay.api.request.AlipaySystemOauthTokenRequest;
 import com.alipay.api.request.AlipayUserInfoShareRequest;
+import com.alipay.api.request.KoubeiMarketingCampaignActivityCreateRequest;
 import com.alipay.api.response.AlipayMarketingCardActivateformQueryResponse;
 import com.alipay.api.response.AlipayMarketingCardActivateurlApplyResponse;
 import com.alipay.api.response.AlipayMarketingCardConsumeSyncResponse;
@@ -42,9 +48,12 @@ import com.alipay.api.response.AlipayMarketingCardTemplateCreateResponse;
 import com.alipay.api.response.AlipayMarketingCardTemplateModifyResponse;
 import com.alipay.api.response.AlipayMarketingCardTemplateQueryResponse;
 import com.alipay.api.response.AlipayMarketingCardUpdateResponse;
+import com.alipay.api.response.AlipayMarketingCashlessvoucherTemplateCreateResponse;
+import com.alipay.api.response.AlipayMarketingVoucherAuthSendResponse;
 import com.alipay.api.response.AlipayOfflineMaterialImageUploadResponse;
 import com.alipay.api.response.AlipaySystemOauthTokenResponse;
 import com.alipay.api.response.AlipayUserInfoShareResponse;
+import com.alipay.api.response.KoubeiMarketingCampaignActivityCreateResponse;
 
 import cn.blmdz.hbs.exception.GlobalException;
 import lombok.extern.slf4j.Slf4j;
@@ -190,7 +199,8 @@ public class AlipaySDK {
         log.info("-----------------修改会员卡模板-------------------");
         try {
             AlipayMarketingCardTemplateModifyRequest request = new AlipayMarketingCardTemplateModifyRequest();
-            request.setNotifyUrl("http://blmdz.cn/third/card");
+//            request.setNotifyUrl("http://blmdz.cn/third/card");
+            request.setNotifyUrl("");
             request.setBizModel(model);
             AlipayMarketingCardTemplateModifyResponse response = client.execute(request);
             log.info(response.getBody());
@@ -461,6 +471,82 @@ public class AlipaySDK {
             AlipayMarketingCardConsumeSyncModel model = new AlipayMarketingCardConsumeSyncModel();
             request.setBizModel(model);
             AlipayMarketingCardConsumeSyncResponse response = client.execute(request);
+            log.info(response.getBody());
+            if (response.isSuccess()) {
+                log.info("success.");
+            } else {
+                log.error("error.");
+            }
+            return response;
+        } catch (AlipayApiException e) {
+            throw new GlobalException(e.getCause());
+        }
+    }
+    
+    /**
+     * 活动创建接口 koubei.marketing.campaign.activity.create
+     * @api <a href=
+     *      "https://docs.open.alipay.com/api_5/koubei.marketing.campaign.activity.create">
+     *      活动创建接口</a>
+     *      
+     */
+    public KoubeiMarketingCampaignActivityCreateResponse activityCreate(KoubeiMarketingCampaignActivityCreateModel model) {
+        log.info("-----------------活动创建-------------------");
+        try {
+            KoubeiMarketingCampaignActivityCreateRequest request = new KoubeiMarketingCampaignActivityCreateRequest();
+            request.setBizModel(model);
+            KoubeiMarketingCampaignActivityCreateResponse response = client.execute(request);
+            log.info(response.getBody());
+            if (response.isSuccess()) {
+                log.info("success.");
+            } else {
+                log.error("error.");
+            }
+            return response;
+        } catch (AlipayApiException e) {
+            throw new GlobalException(e.getCause());
+        }
+    }
+    
+    /**
+     * 发券接口 alipay.marketing.voucher.send
+     * @api <a href=
+     *      "https://docs.open.alipay.com/api_5/alipay.marketing.voucher.send">
+     *      发券接口</a>
+     *      
+     */
+    public AlipayMarketingVoucherAuthSendResponse activitySend() {
+        log.info("-----------------活动发券-------------------");
+        try {
+            AlipayMarketingVoucherAuthSendModel model = new AlipayMarketingVoucherAuthSendModel();
+            AlipayMarketingVoucherAuthSendRequest request = new AlipayMarketingVoucherAuthSendRequest();
+            request.setBizModel(model);
+            AlipayMarketingVoucherAuthSendResponse response = client.execute(request);
+            log.info(response.getBody());
+            if (response.isSuccess()) {
+                log.info("success.");
+            } else {
+                log.error("error.");
+            }
+            return response;
+        } catch (AlipayApiException e) {
+            throw new GlobalException(e.getCause());
+        }
+    }
+    
+    /**
+     * 无资金券模板创建接口 alipay.marketing.cashlessvoucher.template.create
+     * @api <a href=
+     *      "https://docs.open.alipay.com/api_5/alipay.marketing.cashlessvoucher.template.create">
+     *      无资金券模板创建接口</a>
+     *      
+     */
+    public AlipayMarketingCashlessvoucherTemplateCreateResponse cashlessvoucherCreate(AlipayMarketingCashlessvoucherTemplateCreateModel model) {
+        log.info("-----------------无资金券模板创建-------------------");
+        try {
+            AlipayMarketingCashlessvoucherTemplateCreateRequest request = new AlipayMarketingCashlessvoucherTemplateCreateRequest();
+            request.setBizModel(model);
+            AlipayMarketingCashlessvoucherTemplateCreateResponse response = client.execute(request);
             log.info(response.getBody());
             if (response.isSuccess()) {
                 log.info("success.");
