@@ -11,9 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.collect.Maps;
 
+import cn.blmdz.hbs.util.JsonMapper;
 import cn.blmdz.web.enums.ThirdChannel;
 import cn.blmdz.web.manager.ThirdManager;
 import cn.blmdz.web.model.ThirdUser;
@@ -25,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping(value="/third")
 public class ThirdController {
-
+    
 	@Autowired
 	@Qualifier("alipayThirdManager")
 	private ThirdManager alipayThirdManager;
@@ -119,7 +121,6 @@ public class ThirdController {
 	private void third(HttpServletRequest request, HttpServletResponse response, ThirdUser tuser) {
 		channel(tuser);
 		tuser = ThirdUtil.getThirdUserId(request, response, tuser, thirdManager, false);
-		// 异常处理 TODO
 		if (tuser == null) return ;
 		
 		thirdUserService.recording(tuser);
@@ -142,17 +143,15 @@ public class ThirdController {
 			String param = enums.nextElement();
 			requestMap.put(param, request.getParameter(param));
 		}
-		log.info("接收参数: {}", requestMap);
+		log.info("接收参数: {}", JsonMapper.nonDefaultMapper().toJson(requestMap));
 	}
 
 
+    /**
+     * 领卡入口
+     */
     @RequestMapping(value="/card")
     public void card(HttpServletRequest request, HttpServletResponse response) {
-//        if (StringUtils.isBlank(request.getParameter("request_id"))
-//                || StringUtils.isBlank(request.getParameter("auth_code"))
-//                || StringUtils.isBlank(request.getParameter("template_id"))
-//                || ThirdChannel.tran(request.getParameter("out_string")) == null) {
-//        }
         map(request);
         channel(new ThirdUser(ThirdChannel.tran(request.getParameter("out_string"))));
         thirdManager.card(request.getParameter("request_id"), request.getParameter("template_id"), request.getParameter("auth_code"));
@@ -161,5 +160,14 @@ public class ThirdController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 公共测试
+     */
+    @RequestMapping(value="/test")
+    @ResponseBody
+    public void test(HttpServletRequest request, HttpServletResponse response) {
+        map(request);
     }
 }

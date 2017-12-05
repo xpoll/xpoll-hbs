@@ -11,7 +11,6 @@ import java.util.Map;
 import com.alipay.api.domain.AlipayMarketingCardActivateurlApplyModel;
 import com.alipay.api.domain.AlipayMarketingCardTemplateCreateModel;
 import com.alipay.api.domain.AlipayMarketingCardTemplateModifyModel;
-import com.alipay.api.domain.AlipayMarketingCashlessvoucherTemplateCreateModel;
 import com.alipay.api.domain.BudgetInfo;
 import com.alipay.api.domain.ClauseTerm;
 import com.alipay.api.domain.ConstraintInfo;
@@ -368,7 +367,11 @@ public class ModelAlipay {
         constraintInfo.setUserWinFrequency("D||55");
 //        constraintInfo.setCrowdGroupId(crowdGroupId);// 人群规则组ID 
 //        constraintInfo.setCrowdRestriction(crowdRestriction);// 针对指定人群的约束条件
-//        constraintInfo.setSuitShops(suitShops);// 活动适用的门店列表 
+        List<String> suitShops = new ArrayList<>();
+//        suitShops.add("2017111500077000000046464829");
+        suitShops.add("2017052300077000000000097924");
+        
+        constraintInfo.setSuitShops(suitShops);// 活动适用的门店列表  TODO 
 //        constraintInfo.setMinCost(minCost);// 最低消费金额
 //        constraintInfo.setItemIds(itemIds);// 单品码列表 
         model.setConstraintInfo(constraintInfo);
@@ -376,7 +379,7 @@ public class ModelAlipay {
         List<PromoTool> promoTools = new ArrayList<>();
         PromoTool promoTool = new PromoTool();
         Voucher voucher = new Voucher();
-        voucher.setType("PER_FULL_CUT");
+        voucher.setType("MONEY");
 //        voucher.setVerifyMode(verifyMode);
         voucher.setVoucherNote("券的备注券的备注券的备注券的备注"); // 券发出后核销时将在当面付接口将该值传回，供收银系统识别   券的备注
         
@@ -422,7 +425,7 @@ public class ModelAlipay {
         voucher.setDesc("券的详细说明券的详细说明券的详细说明券的详细说明券的详细说明券的详细说明券的详细说明券的详细说明券的详细说明券的详细说明券的详细说明券的详细说明券的详细说明券的详细说明券的详细说明券的详细说明");
         
         UseRule useRule = new UseRule();
-//        useRule.setSuitShops(suitShops);// 券适用门店列表 
+        useRule.setSuitShops(suitShops);// 券适用门店列表 TODO
         useRule.setMinConsume(String.valueOf(30)); // 最低消费
         useRule.setLimitRule("USE_NO_LIMIT");
         voucher.setUseRule(useRule);
@@ -467,38 +470,6 @@ public class ModelAlipay {
         return model;
     }
     
-    
-    /**
-     * 无资金券模板创建接口 TODO
-     */
-    public static AlipayMarketingCashlessvoucherTemplateCreateModel alipayMarketingCashlessvoucherTemplateCreateModel() {
-        AlipayMarketingCashlessvoucherTemplateCreateModel model = new AlipayMarketingCashlessvoucherTemplateCreateModel();
-        Calendar max = Calendar.getInstance();
-        model.setVoucherType("CASHLESS_FIX_VOUCHER");// 代金券
-        model.setBrandName("熙小浅");
-        model.setPublishStartTime(max.getTime());
-        max.set(Calendar.MONTH, max.get(Calendar.MONTH) + 1);
-        model.setPublishEndTime(max.getTime());
-        model.setVoucherValidPeriod("{\"type\": \"ABSOLUTE\", \"start\": \"2017-11-10 00:00:00\", \"end\": \"2017-12-13 23:59:59\"}");
-        model.setVoucherAvailableTime("[]");
-        model.setOutBizNo(new SimpleDateFormat("yyyyMMddHHmmssSSS").format(max.getTime()));
-        model.setVoucherDescription("[\"1、本券不可兑换现金，不可找零。\",\"2、每个用户最多可以领取1张。\",\"3、如果订单发生退款，优惠券无法退还。\"]");
-        model.setVoucherQuantity(100L);
-        model.setAmount("10.00");
-        model.setFloorAmount("30.00");
-        model.setRuleConf("{\"PID\":\"2088702372638754\"}"); // 规则配置
-//        model.setNotifyUri(notifyUri); // 券变动异步通知地址
-//        model.setExtensionInfo(extensionInfo);
-        
-//        rule_conf   String  特殊可选    1024    规则配置，JSON字符串，{"PID": "2088512417841101,2088512417841102", "STORE": "123456,678901"}，其中PID表示可以核销该券的pid列表，多个值用英文逗号隔开，PID为必传且需与接口调用PID同属一个商家，STORE表示可以核销该券的内部门店ID，多个值用英文逗号隔开 ， 兑换券不能指定规则配置 {"PID": "2088512417841101,2088512417841102", "STORE": "123456,678901"}
-//        notify_uri  String  可选  128 券变动异步通知地址   https://www.yourdomain.com/reieve/voucher/flux
-//        extension_info  String  可选  1024    扩展字段,JSON字符串。目前支持使用模式扩展：{"useMode":"H5","useModeData":{"url":"http://www.yourdomian.com/yourusepage.htm","signKeys":"voucherId,userId,tag","charset":"UTF-8","signType":"RSA2","tag":"this is my tag"}} 
-//        其中如果useMode表示自定义的使用模式类型，目前仅支持"H5",表示在券详情页按钮跳转至自定义H5页面，当传入useMode参数后，将会检查useModeData对象数据，其中的url为必传参数;url字段表示客制化使用按钮跳转链接，传入该字段后在券详情使用时点击效果将会跳转此链接，链接将进行白名单过滤，如果无法接入成功请联系技术支持;signKeys字段表示跳转至客制链接时的加签字段，如果不传默认为voucherId,userId,tag;signType为加签类型，目前支持RSA及RSA2,如果不传则不会加签;charset为链接编码格式，不传默认为UTF-8;tag为自定义参数，会直接透传回使用链接;当传入合法加签信息后，券使用链接将为http://www.yourdomain.com/yourusepage.htm?voucherId=当前券id&userId=当前用户id&tag=传入tag&sign=对应算法及key生成的加签数据   {"useMode":"H5","useModeData":{"url":"http://www.yourdomian.com/yourusepage.htm","signType":"RSA2"}}
-        
-        
-        
-        return model;
-    }
 }
 
 

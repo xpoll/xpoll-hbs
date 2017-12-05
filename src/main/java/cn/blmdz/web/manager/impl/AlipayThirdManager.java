@@ -62,6 +62,9 @@ public class AlipayThirdManager implements ThirdManager {
 
         cardExtInfo.setValidDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(max.getTime()));// 默认格式
         cardExtInfo.setExternalCardNo("880000" + String.format("%06d", (int) (Math.random() * 1000000)));
+        cardExtInfo.setLevel(((int) (Math.random() * 10000))%2 == 0 ? "VIP" : "NORMAL");
+        cardExtInfo.setPoint(String.valueOf((int) (Math.random() * 10000)));
+        cardExtInfo.setBalance(String.valueOf((int) (Math.random() * 1000)));
         model.setCardExtInfo(cardExtInfo);
 
         MerchantMenber memberExtInfo = new MerchantMenber();

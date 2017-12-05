@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.domain.AlipayMarketingCardOpenModel;
-import com.alipay.api.domain.AlipayMarketingCardTemplateModifyModel;
 import com.alipay.api.domain.AlipayMarketingCardUpdateModel;
 import com.alipay.api.domain.CardUserInfo;
 import com.alipay.api.domain.McardNotifyMessage;
@@ -16,7 +15,6 @@ import com.alipay.api.domain.MerchantCard;
 import com.alipay.api.domain.MerchantMenber;
 import com.alipay.api.internal.util.AlipayLogger;
 
-import cn.blmdz.web.third.AliPayConfig;
 import cn.blmdz.web.third.AlipaySDK;
 
 /**
@@ -61,7 +59,7 @@ public class ConfigAlipay {
 
 
 	public static void main(String[] args) throws AlipayApiException {
-	    AlipaySDK sdk = AliPayConfig.getInstance();
+	    AlipaySDK sdk = AliPayConfigTest.getInstance();
 		AlipayLogger.setJDKDebugEnabled(true);
 //		// 卡模板图标
 //		sdk.upload(new File(image_url));
@@ -77,8 +75,8 @@ public class ConfigAlipay {
 //		// 查询会员卡模板  
 //		sdk.templateInfo(template_id);
 //		// 更新会员卡模板
-		AlipayMarketingCardTemplateModifyModel modifyModel = ModelAlipay.alipayMarketingCardTemplateModifyModel(template_id, prefix, writeOffType, name, logo_id, color, bg_id, sign, "http://blmdz.xyz");
-		sdk.modifyTemplate(modifyModel);
+//		AlipayMarketingCardTemplateModifyModel modifyModel = ModelAlipay.alipayMarketingCardTemplateModifyModel(template_id, prefix, writeOffType, name, logo_id, color, bg_id, sign, "http://blmdz.xyz");
+//		sdk.modifyTemplate(modifyModel);
 //		// 设置表单信息
 //		sdk.formTemplate(ModelAlipay.alipayMarketingCardFormtemplateSetModel(template_id));
 //		// 获取会员卡领卡投放链接 
@@ -142,14 +140,10 @@ public class ConfigAlipay {
         notifyMessages.add(mcardNotifyMessage);
 		
 		um.setNotifyMessages(notifyMessages);
-		sdk.memberCardUpdate(um);
+//		sdk.memberCardUpdate(um);
 //		// 会员卡查询
-//		sdk.memberCardInfo("family0003366523", auth_token);
+		sdk.memberCardInfo("family0003366523");
 //		// 会员卡删除
-//		sdk.memberCardDelete("family0003366523", auth_token);
-		
-//		sdk.activityCreate(ModelAlipay.koubeiMarketingCampaignActivityCreateModel());
-		
-		sdk.cashlessvoucherCreate(ModelAlipay.alipayMarketingCashlessvoucherTemplateCreateModel());
+//		sdk.memberCardDelete("family0003366523");
 	}
 }
